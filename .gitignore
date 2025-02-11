@@ -1,0 +1,9 @@
+*un~
+*.png
+*.swp
+*.npz
+*.h5
+*.pdf
+*.DS_STORE
+__pycache__
+.python-version
