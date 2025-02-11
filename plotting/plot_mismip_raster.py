@@ -184,9 +184,7 @@ def mismip_raster_inner_outer_full(even_dicts, chans_dicts):
         cm_du = tripcolor(extract_surface(du), vmin=-250, vmax=250, cmap="PuOr", axes=du_ax)
 
         epsilon_dot = sym_grad(chan_dict["velocity"])
-        cm_ss = tripcolor(
-            extract_surface(firedrake.project(epsilon_dot[0, 1], Q2)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ss_ax
-        )
+        cm_ss = tripcolor(extract_surface(firedrake.project(epsilon_dot[0, 1], Q2)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ss_ax)
 
         is_floating = smooth_floating(250, extract_surface(chan_dict["surface"]), extract_surface(chan_dict["thickness"]))
         tricontour(is_floating, levels=[0], colors="k", axes=h_ax)
@@ -271,9 +269,7 @@ def mismip_raster_both_edge_center(even_dicts, chans_dicts):
         cm_du = tripcolor(extract_surface(du), vmin=-250, vmax=250, cmap="PuOr", axes=du_ax)
 
         epsilon_dot = sym_grad(chan_dict["velocity"])
-        cm_ss = tripcolor(
-            extract_surface(firedrake.project(epsilon_dot[0, 1], Q2)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ss_ax
-        )
+        cm_ss = tripcolor(extract_surface(firedrake.project(epsilon_dot[0, 1], Q2)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ss_ax)
 
         is_floating = smooth_floating(250, extract_surface(chan_dict["surface"]), extract_surface(chan_dict["thickness"]))
         tricontour(is_floating, levels=[0], colors="k", axes=h_ax)
@@ -358,9 +354,7 @@ def mismip_raster_inner_outer_full_side(even_dicts, chans_dicts):
         cm_du = tripcolor(extract_surface(du), vmin=-250, vmax=250, cmap="PuOr", axes=du_ax)
 
         epsilon_dot = sym_grad(chan_dict["velocity"])
-        cm_ss = tripcolor(
-            extract_surface(firedrake.project(epsilon_dot[0, 1], Q2)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ss_ax
-        )
+        cm_ss = tripcolor(extract_surface(firedrake.project(epsilon_dot[0, 1], Q2)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ss_ax)
 
         is_floating = smooth_floating(250, extract_surface(chan_dict["surface"]), extract_surface(chan_dict["thickness"]))
         tricontour(is_floating, levels=[0], colors="k", axes=h_ax)

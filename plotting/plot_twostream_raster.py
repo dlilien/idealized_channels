@@ -29,6 +29,7 @@ from libchannels import smooth_floating, ts_name
 
 from plot_twostream_bywidth import pt_names, all_pts, pt_symbols
 from plot_mismip_bywidth import key_full, key_center, key_margin, key_inner, key_outer
+
 key_funky = key_margin
 
 chan_fn_template = "../modeling/outputs/{:s}-hybrid-{:s}-{:s}.h5"
@@ -186,8 +187,7 @@ def four_column(even_dicts, chans_dicts):
     for h_ax, u_ax, du_ax, ss_ax, even_dict, chan_dict in zip(h_axes, u_axes, du_axes, ss_axes, even_dicts, chans_dicts):
         Q2 = even_dict["thickness"].function_space()
         du = firedrake.project(
-            firedrake.assemble(interpolate(chan_dict["velocity"][0], Q2))
-            - firedrake.assemble(interpolate(even_dict["velocity"][0], Q2)),
+            firedrake.assemble(interpolate(chan_dict["velocity"][0], Q2)) - firedrake.assemble(interpolate(even_dict["velocity"][0], Q2)),
             Q2,
         )
         cm_h = tripcolor(extract_surface(chan_dict["thickness"]), vmin=0, vmax=1500, cmap="viridis", axes=h_ax)
@@ -286,9 +286,7 @@ def singles(even_dicts, chans_dicts):
         cm_du = tripcolor(extract_surface(du), vmin=-250, vmax=250, cmap="PuOr", axes=du_ax)
 
         epsilon_dot = sym_grad(chan_dict["velocity"])
-        cm_ss = tripcolor(
-            extract_surface(firedrake.project(epsilon_dot[0, 1], Q2)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ss_ax
-        )
+        cm_ss = tripcolor(extract_surface(firedrake.project(epsilon_dot[0, 1], Q2)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ss_ax)
 
         is_floating = smooth_floating(250, extract_surface(chan_dict["surface"]), extract_surface(chan_dict["thickness"]))
         tricontour(is_floating, levels=[0], colors="k", axes=h_ax)
@@ -327,7 +325,7 @@ def singles(even_dicts, chans_dicts):
 
         if ax in du_axes:
             for pt, marker in zip(all_pts, pt_symbols):
-                if marker in 'os':
+                if marker in "os":
                     ax.plot(*pt, marker=marker, linestyle="none", color="0.5")
         if ax in ss_axes:
             ax.set_xticklabels(["400", "500", "600"])
@@ -373,9 +371,7 @@ def pairs(even_dicts, chans_dicts):
         cm_du = tripcolor(extract_surface(du), vmin=-250, vmax=250, cmap="PuOr", axes=du_ax)
 
         epsilon_dot = sym_grad(chan_dict["velocity"])
-        cm_ss = tripcolor(
-            extract_surface(firedrake.project(epsilon_dot[0, 1], Q2)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ss_ax
-        )
+        cm_ss = tripcolor(extract_surface(firedrake.project(epsilon_dot[0, 1], Q2)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ss_ax)
 
         is_floating = smooth_floating(250, extract_surface(chan_dict["surface"]), extract_surface(chan_dict["thickness"]))
         tricontour(is_floating, levels=[0], colors="k", axes=h_ax)
@@ -414,7 +410,7 @@ def pairs(even_dicts, chans_dicts):
 
         if ax in du_axes:
             for pt, marker in zip(all_pts, pt_symbols):
-                if marker in 'os':
+                if marker in "os":
                     ax.plot(*pt, marker=marker, linestyle="none", color="0.5")
         if ax in ss_axes:
             ax.set_xticklabels(["400", "500", "600"])
@@ -425,6 +421,7 @@ def pairs(even_dicts, chans_dicts):
     u_axes[0].text(-0.25, -0.1, "Distance (km)", rotation=90, ha="center", va="center", fontsize=8, transform=u_axes[0].transAxes)
     ss_axes[1].set_xlabel("Distance (km)", fontsize=8)
     fig.savefig("../plots/hybrid/twostream_pairs.png", dpi=300)
+
 
 if __name__ == "__main__":
     singles(even_dicts, chans_dicts)

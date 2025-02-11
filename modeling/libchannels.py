@@ -94,7 +94,9 @@ def trapezoidal_channel(mesh, depth, x0, y_c, y_width=2000.0, ramp_y=1000.0, ram
 
 
 def sidehugging_trapezoidal_channels(mesh, depth, x0, outer_start, kink_x=5.2e5, kink_y_outer=1.35e4, y_width=2000.0, ramp_y=1000.0, ramp_x=5000.0, outer=None):
-    return sidehugging_trapezoidal_channel(mesh, depth, x0, outer_start, kink_x=kink_x, kink_y_outer=kink_y_outer, y_width=y_width, ramp_y=ramp_y, ramp_x=ramp_x, outer=outer) + sidehugging_trapezoidal_channel(mesh, depth, x0, Ly - outer_start - ramp_y * 2 - y_width, kink_x=kink_x, kink_y_outer=Ly - kink_y_outer - ramp_y * 2 - y_width, y_width=y_width, ramp_y=ramp_y, ramp_x=ramp_x, outer=outer)
+    return sidehugging_trapezoidal_channel(mesh, depth, x0, outer_start, kink_x=kink_x, kink_y_outer=kink_y_outer, y_width=y_width, ramp_y=ramp_y, ramp_x=ramp_x, outer=outer) + sidehugging_trapezoidal_channel(
+        mesh, depth, x0, Ly - outer_start - ramp_y * 2 - y_width, kink_x=kink_x, kink_y_outer=Ly - kink_y_outer - ramp_y * 2 - y_width, y_width=y_width, ramp_y=ramp_y, ramp_x=ramp_x, outer=outer
+    )
 
 
 def sidehugging_trapezoidal_channel(mesh, depth, x0, outer_start, kink_x=5.2e5, kink_y_outer=1.35e4, y_width=2000.0, ramp_y=1000.0, ramp_x=5000.0, outer=None):
@@ -129,9 +131,7 @@ def sidehugging_trapezoidal_channel(mesh, depth, x0, outer_start, kink_x=5.2e5, 
 
 
 def trapezoidal_channels(mesh, depth, x0, y_c, y_width=2000.0, ramp_y=2000.0, ramp_x=5000.0, outer=None):
-    return trapezoidal_channel(
-        mesh, depth, x0, y_c, y_width=y_width, ramp_y=ramp_y, ramp_x=ramp_x, outer=outer
-    ) + trapezoidal_channel(
+    return trapezoidal_channel(mesh, depth, x0, y_c, y_width=y_width, ramp_y=ramp_y, ramp_x=ramp_x, outer=outer) + trapezoidal_channel(
         mesh,
         depth,
         x0,
@@ -164,9 +164,7 @@ def volume_conserving_trapezoidal_channels(
     outboard_left = firedrake.conditional(y > (Ly - y_c + y_width / 2 + ramp_y), 1.0, 0.0)
     outboard_right = firedrake.conditional(y < (y_c - y_width / 2 - ramp_y), 1.0, 0.0)
     outboard_ramp = firedrake.max_value(firedrake.min_value((x - outboard_x) / outboard_ramp_x, 1.0), 0.0)
-    inboard = firedrake.conditional(y > (y_c + y_width / 2 + ramp_y), 1.0, 0.0) * firedrake.conditional(
-        y < (Ly - y_c - y_width / 2 - ramp_y), 1.0, 0.0
-    )
+    inboard = firedrake.conditional(y > (y_c + y_width / 2 + ramp_y), 1.0, 0.0) * firedrake.conditional(y < (Ly - y_c - y_width / 2 - ramp_y), 1.0, 0.0)
     inboard_ramp = firedrake.max_value(firedrake.min_value((x - inboard_x) / inboard_ramp_x, 1.0), 0.0)
     not_a_channel = inboard * inboard_ramp + (outboard_right + outboard_left) * outboard_ramp
     non_channel_area = firedrake.assemble(not_a_channel * firedrake.dx)
@@ -206,27 +204,15 @@ def volume_conserving_trapezoidal_channel(
     inboard_ramp = firedrake.max_value(firedrake.min_value((x - inboard_x) / inboard_ramp_x, 1.0), 0.0)
     outboard_ramp = firedrake.max_value(firedrake.min_value((x - outboard_x) / outboard_ramp_x, 1.0), 0.0)
 
-    inboard_left = firedrake.conditional(y > max(y_c + y_width / 2 + ramp_y, outin_transition), 1.0, 0.0) * firedrake.conditional(
-        y < (Ly - outin_transition), 1.0, 0.0
-    ) + firedrake.max_value(
+    inboard_left = firedrake.conditional(y > max(y_c + y_width / 2 + ramp_y, outin_transition), 1.0, 0.0) * firedrake.conditional(y < (Ly - outin_transition), 1.0, 0.0) + firedrake.max_value(
         0.0,
         firedrake.min_value(1.0, 1.0 - (y - (Ly - outin_transition)) / ramp_y_volcon),
-    ) * (
-        1.0 - outboard_ramp
-    ) * firedrake.conditional(
-        y >= (Ly - outin_transition), 1.0, 0.0
-    )
+    ) * (1.0 - outboard_ramp) * firedrake.conditional(y >= (Ly - outin_transition), 1.0, 0.0)
 
-    inboard_right = firedrake.conditional(y < y_c - y_width / 2 - ramp_y, 1.0, 0.0) * firedrake.conditional(
-        y > outin_transition, 1.0, 0.0
-    ) + firedrake.max_value(
+    inboard_right = firedrake.conditional(y < y_c - y_width / 2 - ramp_y, 1.0, 0.0) * firedrake.conditional(y > outin_transition, 1.0, 0.0) + firedrake.max_value(
         0.0,
         firedrake.min_value(1.0, (y - (outin_transition - ramp_y_volcon)) / ramp_y_volcon),
-    ) * (
-        1.0 - outboard_ramp
-    ) * firedrake.conditional(
-        y <= outin_transition, 1.0, 0.0
-    )
+    ) * (1.0 - outboard_ramp) * firedrake.conditional(y <= outin_transition, 1.0, 0.0)
 
     not_a_channel = (inboard_left + inboard_right) * inboard_ramp + (outboard_right + outboard_left) * outboard_ramp
     non_channel_area = firedrake.assemble(not_a_channel * firedrake.dx)
@@ -234,16 +220,7 @@ def volume_conserving_trapezoidal_channel(
     return tc - thickening
 
 
-def equivalent_thinning(
-    func,
-    surf,
-    thick,
-    mesh,
-    depth,
-    x0,
-    y_c,
-    **kwargs
-):
+def equivalent_thinning(func, surf, thick, mesh, depth, x0, y_c, **kwargs):
     vol_chan = vol_thinning(func, mesh, depth, x0, y_c, **kwargs)
     floating = gradual_floating_area(mesh, surf, thick)
     vol_float = firedrake.assemble(floating * dx)
@@ -251,14 +228,7 @@ def equivalent_thinning(
     return floating * scale
 
 
-def vol_thinning(
-    func,
-    mesh,
-    depth,
-    x0,
-    y_c,
-    **kwargs
-):
+def vol_thinning(func, mesh, depth, x0, y_c, **kwargs):
     tc = func(mesh, depth, x0, y_c, **kwargs)
     return firedrake.assemble(tc * dx)
 
@@ -529,14 +499,14 @@ if __name__ == "__main__":
     y_kink = 1.35e4
     fig, ax = plt.subplots()
     center_chan = trapezoidal_channel(mesh, 100, 4.45e5, 4.0e4)
-    tricontour(firedrake.assemble(interpolate(center_chan, Q2)), levels=[10], axes=ax, colors='k')
+    tricontour(firedrake.assemble(interpolate(center_chan, Q2)), levels=[10], axes=ax, colors="k")
     outboard_chan = sidehugging_trapezoidal_channel(mesh, 100, x0, y0, x_kink, y_kink)
-    tricontour(firedrake.assemble(interpolate(outboard_chan, Q2)), levels=[10], axes=ax, colors='C1')
+    tricontour(firedrake.assemble(interpolate(outboard_chan, Q2)), levels=[10], axes=ax, colors="C1")
     outer_chan = sidehugging_trapezoidal_channel(mesh, 100, x0, y0, x_kink, y_kink, outer=5.3e5)
     tricontour(firedrake.assemble(interpolate(outer_chan, Q2)), levels=[10], axes=ax, colors="C2")
 
     outer_chans = sidehugging_trapezoidal_channels(mesh, 50, 520000, 1.35e4)
-    tricontour(firedrake.assemble(interpolate(outer_chans, Q2)), levels=[10], axes=ax, colors='C3')
+    tricontour(firedrake.assemble(interpolate(outer_chans, Q2)), levels=[10], axes=ax, colors="C3")
 
     cm = tripcolor(firedrake.assemble(interpolate(outer_chans, Q2)))
     plt.colorbar(cm)
@@ -562,6 +532,6 @@ if __name__ == "__main__":
     fig, ax = plt.subplots()
     tricontour(is_floating_mismip, levels=[0.0], colors="k", axes=ax)
     outboard_chan = sidehugging_trapezoidal_channels(mesh, 100, x0, y0, x_kink, y_kink)
-    tricontour(firedrake.assemble(interpolate(outboard_chan, Q2)), levels=[10], axes=ax, colors='C1')
+    tricontour(firedrake.assemble(interpolate(outboard_chan, Q2)), levels=[10], axes=ax, colors="C1")
 
     plt.show()

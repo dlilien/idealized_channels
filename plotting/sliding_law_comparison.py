@@ -35,21 +35,12 @@ for i, N in enumerate([0.05, 0.1, 0.5, 1.0]):
     )
     ax1.plot(
         u,
-        1.0e3
-        * (
-            friction.tau_regularized_coulomb_mismip(3.0, u, 1000, s, 0.5)
-            - friction.tau_mismip_assaydavis(3.0, u, 1000, s, 0.5)
-        ),
+        1.0e3 * (friction.tau_regularized_coulomb_mismip(3.0, u, 1000, s, 0.5) - friction.tau_mismip_assaydavis(3.0, u, 1000, s, 0.5)),
         color=f"C{i}",
     )
     ax2.plot(
         u,
-        100
-        * (
-            friction.tau_regularized_coulomb_mismip(3.0, u, 1000, s, 0.5)
-            - friction.tau_mismip_assaydavis(3.0, u, 1000, s, 0.5)
-        )
-        / friction.tau_mismip_assaydavis(3.0, u, 1000, s, 0.5),
+        100 * (friction.tau_regularized_coulomb_mismip(3.0, u, 1000, s, 0.5) - friction.tau_mismip_assaydavis(3.0, u, 1000, s, 0.5)) / friction.tau_mismip_assaydavis(3.0, u, 1000, s, 0.5),
         color=f"C{i}",
     )
 

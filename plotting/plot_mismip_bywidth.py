@@ -144,15 +144,8 @@ def marker_plot_simplified():
             label = None
             if j == 0:
                 label = names[pref]
-            ax1.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth],
-                     [center[0, j], center[0, j], center[-1, j], center[-1, j], center[0, j]],
-                     color=colors[pref],
-                     label=label,
-                     alpha=0.5)
-            ax2.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth],
-                     [gl[0, j], gl[0, j], gl[-1, j], gl[-1, j], gl[0, j]],
-                     color=colors[pref],
-                     alpha=0.5)
+            ax1.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth], [center[0, j], center[0, j], center[-1, j], center[-1, j], center[0, j]], color=colors[pref], label=label, alpha=0.5)
+            ax2.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth], [gl[0, j], gl[0, j], gl[-1, j], gl[-1, j], gl[0, j]], color=colors[pref], alpha=0.5)
     ax1.set_ylim(0, 1500)
     ax2.set_ylim(0, 400)
     ax1.set_xlim(40, 260)
@@ -210,15 +203,8 @@ def marker_plot_up_simplified():
             label = None
             if j == 0:
                 label = names[pref]
-            ax1.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth],
-                     [center[0, j], center[0, j], center[-1, j], center[-1, j], center[0, j]],
-                     color=colors[pref],
-                     label=label,
-                     alpha=0.5)
-            ax2.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth],
-                     [gl[0, j], gl[0, j], gl[-1, j], gl[-1, j], gl[0, j]],
-                     color=colors[pref],
-                     alpha=0.5)
+            ax1.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth], [center[0, j], center[0, j], center[-1, j], center[-1, j], center[0, j]], color=colors[pref], label=label, alpha=0.5)
+            ax2.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth], [gl[0, j], gl[0, j], gl[-1, j], gl[-1, j], gl[0, j]], color=colors[pref], alpha=0.5)
     ax1.set_ylim(0, 1500)
     ax2.set_ylim(0, 400)
     ax1.set_xlim(40, 260)
@@ -256,8 +242,6 @@ def marker_plot_up_simplified():
     # ax2.legend(ncol=2, loc="upper center", frameon=False, fontsize=8)
     fig.tight_layout(pad=0.1)
     fig.savefig("../plots/hybrid/comp_inner_outer_single_mismip_up_simp.pdf")
-
-
 
 
 def marker_plot():
@@ -367,19 +351,11 @@ def marker_plot():
                 fillstyle="right",
             )
 
-            ax1.plot(
-                [], [], linestyle="none", marker="o", color="C{:d}".format(lines + 4), label="{:d}-m wide".format(width)
-            )
+            ax1.plot([], [], linestyle="none", marker="o", color="C{:d}".format(lines + 4), label="{:d}-m wide".format(width))
 
-    ax2.plot(
-        [], [], linestyle="none", marker="s", markeredgecolor="0.6", markerfacecolor="k", label="Two full marginal"
-    )
-    ax2.plot(
-        [], [], linestyle="none", marker="s", markeredgecolor="0.6", markerfacecolor="w", label="Two inner marginal"
-    )
-    ax2.plot(
-        [], [], linestyle="none", marker="s", markeredgecolor="0.4", markerfacecolor="0.6", label="Two outer marginal"
-    )
+    ax2.plot([], [], linestyle="none", marker="s", markeredgecolor="0.6", markerfacecolor="k", label="Two full marginal")
+    ax2.plot([], [], linestyle="none", marker="s", markeredgecolor="0.6", markerfacecolor="w", label="Two inner marginal")
+    ax2.plot([], [], linestyle="none", marker="s", markeredgecolor="0.4", markerfacecolor="0.6", label="Two outer marginal")
     ax2.plot(
         [],
         [],
@@ -550,19 +526,11 @@ def marker_plot_unpaired():
                 fillstyle="right",
             )
 
-            ax1.plot(
-                [], [], linestyle="none", marker="o", color="C{:d}".format(lines + 4), label="{:d}-m wide".format(width)
-            )
+            ax1.plot([], [], linestyle="none", marker="o", color="C{:d}".format(lines + 4), label="{:d}-m wide".format(width))
 
-    ax2.plot(
-        [], [], linestyle="none", marker="s", markeredgecolor="0.6", markerfacecolor="k", label="Two full marginal"
-    )
-    ax2.plot(
-        [], [], linestyle="none", marker="s", markeredgecolor="0.6", markerfacecolor="w", label="Two inner marginal"
-    )
-    ax2.plot(
-        [], [], linestyle="none", marker="s", markeredgecolor="0.4", markerfacecolor="0.6", label="Two outer marginal"
-    )
+    ax2.plot([], [], linestyle="none", marker="s", markeredgecolor="0.6", markerfacecolor="k", label="Two full marginal")
+    ax2.plot([], [], linestyle="none", marker="s", markeredgecolor="0.6", markerfacecolor="w", label="Two inner marginal")
+    ax2.plot([], [], linestyle="none", marker="s", markeredgecolor="0.4", markerfacecolor="0.6", label="Two outer marginal")
     ax2.plot(
         [],
         [],
@@ -710,30 +678,14 @@ if __name__ == "__main__":
 
         for i, channel_width in enumerate(widths):
             for j, channel_depth in enumerate(depths):
-                full_center_vels_chans[i, j] = extract_surface(
-                    firedrake.project(full_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*center_pt)
-                full_center_vels_even[i, j] = extract_surface(
-                    firedrake.project(full_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*center_pt)
-                full_outer_vels_chans[i, j] = extract_surface(
-                    firedrake.project(full_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*outer_pt)
-                full_outer_vels_even[i, j] = extract_surface(
-                    firedrake.project(full_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*outer_pt)
-                full_gl_vels_chans[i, j] = extract_surface(
-                    firedrake.project(full_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*gl_pt)
-                full_gl_vels_even[i, j] = extract_surface(
-                    firedrake.project(full_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*gl_pt)
-                full_ugl_vels_chans[i, j] = extract_surface(
-                    firedrake.project(full_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*ugl_pt)
-                full_ugl_vels_even[i, j] = extract_surface(
-                    firedrake.project(full_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*ugl_pt)
+                full_center_vels_chans[i, j] = extract_surface(firedrake.project(full_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+                full_center_vels_even[i, j] = extract_surface(firedrake.project(full_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+                full_outer_vels_chans[i, j] = extract_surface(firedrake.project(full_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+                full_outer_vels_even[i, j] = extract_surface(firedrake.project(full_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+                full_gl_vels_chans[i, j] = extract_surface(firedrake.project(full_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
+                full_gl_vels_even[i, j] = extract_surface(firedrake.project(full_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
+                full_ugl_vels_chans[i, j] = extract_surface(firedrake.project(full_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*ugl_pt)
+                full_ugl_vels_even[i, j] = extract_surface(firedrake.project(full_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*ugl_pt)
 
         inner_dict_even = {}
         inner_dict_chans = {}
@@ -767,30 +719,14 @@ if __name__ == "__main__":
 
         for i, channel_width in enumerate(widths):
             for j, channel_depth in enumerate(depths):
-                inner_center_vels_chans[i, j] = extract_surface(
-                    firedrake.project(inner_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*center_pt)
-                inner_center_vels_even[i, j] = extract_surface(
-                    firedrake.project(inner_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*center_pt)
-                inner_outer_vels_chans[i, j] = extract_surface(
-                    firedrake.project(inner_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*outer_pt)
-                inner_outer_vels_even[i, j] = extract_surface(
-                    firedrake.project(inner_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*outer_pt)
-                inner_gl_vels_chans[i, j] = extract_surface(
-                    firedrake.project(inner_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*gl_pt)
-                inner_gl_vels_even[i, j] = extract_surface(
-                    firedrake.project(inner_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*gl_pt)
-                inner_ugl_vels_chans[i, j] = extract_surface(
-                    firedrake.project(inner_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*ugl_pt)
-                inner_ugl_vels_even[i, j] = extract_surface(
-                    firedrake.project(inner_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*ugl_pt)
+                inner_center_vels_chans[i, j] = extract_surface(firedrake.project(inner_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+                inner_center_vels_even[i, j] = extract_surface(firedrake.project(inner_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+                inner_outer_vels_chans[i, j] = extract_surface(firedrake.project(inner_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+                inner_outer_vels_even[i, j] = extract_surface(firedrake.project(inner_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+                inner_gl_vels_chans[i, j] = extract_surface(firedrake.project(inner_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
+                inner_gl_vels_even[i, j] = extract_surface(firedrake.project(inner_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
+                inner_ugl_vels_chans[i, j] = extract_surface(firedrake.project(inner_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*ugl_pt)
+                inner_ugl_vels_even[i, j] = extract_surface(firedrake.project(inner_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*ugl_pt)
 
         outer_dict_even = {}
         outer_dict_chans = {}
@@ -824,30 +760,14 @@ if __name__ == "__main__":
 
         for i, channel_width in enumerate(widths):
             for j, channel_depth in enumerate(depths):
-                outer_center_vels_chans[i, j] = extract_surface(
-                    firedrake.project(outer_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*center_pt)
-                outer_center_vels_even[i, j] = extract_surface(
-                    firedrake.project(outer_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*center_pt)
-                outer_outer_vels_chans[i, j] = extract_surface(
-                    firedrake.project(outer_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*outer_pt)
-                outer_outer_vels_even[i, j] = extract_surface(
-                    firedrake.project(outer_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*outer_pt)
-                outer_gl_vels_chans[i, j] = extract_surface(
-                    firedrake.project(outer_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*gl_pt)
-                outer_gl_vels_even[i, j] = extract_surface(
-                    firedrake.project(outer_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*gl_pt)
-                outer_ugl_vels_chans[i, j] = extract_surface(
-                    firedrake.project(outer_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*ugl_pt)
-                outer_ugl_vels_even[i, j] = extract_surface(
-                    firedrake.project(outer_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*ugl_pt)
+                outer_center_vels_chans[i, j] = extract_surface(firedrake.project(outer_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+                outer_center_vels_even[i, j] = extract_surface(firedrake.project(outer_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+                outer_outer_vels_chans[i, j] = extract_surface(firedrake.project(outer_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+                outer_outer_vels_even[i, j] = extract_surface(firedrake.project(outer_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+                outer_gl_vels_chans[i, j] = extract_surface(firedrake.project(outer_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
+                outer_gl_vels_even[i, j] = extract_surface(firedrake.project(outer_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
+                outer_ugl_vels_chans[i, j] = extract_surface(firedrake.project(outer_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*ugl_pt)
+                outer_ugl_vels_even[i, j] = extract_surface(firedrake.project(outer_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*ugl_pt)
 
         margin_dict_even = {}
         margin_dict_chans = {}
@@ -881,30 +801,14 @@ if __name__ == "__main__":
 
         for i, channel_width in enumerate(widths):
             for j, channel_depth in enumerate(depths):
-                margin_center_vels_chans[i, j] = extract_surface(
-                    firedrake.project(margin_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*center_pt)
-                margin_center_vels_even[i, j] = extract_surface(
-                    firedrake.project(margin_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*center_pt)
-                margin_outer_vels_chans[i, j] = extract_surface(
-                    firedrake.project(margin_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*outer_pt)
-                margin_outer_vels_even[i, j] = extract_surface(
-                    firedrake.project(margin_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*outer_pt)
-                margin_gl_vels_chans[i, j] = extract_surface(
-                    firedrake.project(margin_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*gl_pt)
-                margin_gl_vels_even[i, j] = extract_surface(
-                    firedrake.project(margin_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*gl_pt)
-                margin_ugl_vels_chans[i, j] = extract_surface(
-                    firedrake.project(margin_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*ugl_pt)
-                margin_ugl_vels_even[i, j] = extract_surface(
-                    firedrake.project(margin_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*ugl_pt)
+                margin_center_vels_chans[i, j] = extract_surface(firedrake.project(margin_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+                margin_center_vels_even[i, j] = extract_surface(firedrake.project(margin_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+                margin_outer_vels_chans[i, j] = extract_surface(firedrake.project(margin_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+                margin_outer_vels_even[i, j] = extract_surface(firedrake.project(margin_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+                margin_gl_vels_chans[i, j] = extract_surface(firedrake.project(margin_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
+                margin_gl_vels_even[i, j] = extract_surface(firedrake.project(margin_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
+                margin_ugl_vels_chans[i, j] = extract_surface(firedrake.project(margin_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*ugl_pt)
+                margin_ugl_vels_even[i, j] = extract_surface(firedrake.project(margin_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*ugl_pt)
 
         center_dict_even = {}
         center_dict_chans = {}
@@ -938,30 +842,14 @@ if __name__ == "__main__":
 
         for i, channel_width in enumerate(widths):
             for j, channel_depth in enumerate(depths):
-                center_center_vels_chans[i, j] = extract_surface(
-                    firedrake.project(center_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*center_pt)
-                center_center_vels_even[i, j] = extract_surface(
-                    firedrake.project(center_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*center_pt)
-                center_outer_vels_chans[i, j] = extract_surface(
-                    firedrake.project(center_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*outer_pt)
-                center_outer_vels_even[i, j] = extract_surface(
-                    firedrake.project(center_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*outer_pt)
-                center_gl_vels_chans[i, j] = extract_surface(
-                    firedrake.project(center_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*gl_pt)
-                center_gl_vels_even[i, j] = extract_surface(
-                    firedrake.project(center_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*gl_pt)
-                center_ugl_vels_chans[i, j] = extract_surface(
-                    firedrake.project(center_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*ugl_pt)
-                center_ugl_vels_even[i, j] = extract_surface(
-                    firedrake.project(center_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                ).at(*ugl_pt)
+                center_center_vels_chans[i, j] = extract_surface(firedrake.project(center_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+                center_center_vels_even[i, j] = extract_surface(firedrake.project(center_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+                center_outer_vels_chans[i, j] = extract_surface(firedrake.project(center_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+                center_outer_vels_even[i, j] = extract_surface(firedrake.project(center_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+                center_gl_vels_chans[i, j] = extract_surface(firedrake.project(center_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
+                center_gl_vels_even[i, j] = extract_surface(firedrake.project(center_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
+                center_ugl_vels_chans[i, j] = extract_surface(firedrake.project(center_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*ugl_pt)
+                center_ugl_vels_even[i, j] = extract_surface(firedrake.project(center_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*ugl_pt)
 
         arrs = [
             full_center_vels_chans,
@@ -1039,22 +927,14 @@ if __name__ == "__main__":
     ):
         i = np.where(widths == key[0])[0][0]
         j = np.where(depths == key[1])[0][0]
-        print(
-            "For {:s}, Max du at gl is {:4.1f} m/yr, at center du is {:4.1f} m/yr".format(
-                name, np.max(changl[:, :] - evengl[:, :]), np.max(chano[:, :] - eveno[:, :])
-            )
-        )
+        print("For {:s}, Max du at gl is {:4.1f} m/yr, at center du is {:4.1f} m/yr".format(name, np.max(changl[:, :] - evengl[:, :]), np.max(chano[:, :] - eveno[:, :])))
         print(
             "or {:4.1f}%, {:4.1f}% of control".format(
                 100 * (np.max(changl[:, :] - evengl[:, :])) / control_gl,
                 100 * (np.max(chano[:, :] - eveno[:, :])) / control_center,
             )
         )
-        print(
-            "For {:s}, at gl du is {:4.1f} m/yr, at center du is {:4.1f} m/yr".format(
-                name, changl[i, j] - evengl[i, j], chano[i, j] - eveno[i, j]
-            )
-        )
+        print("For {:s}, at gl du is {:4.1f} m/yr, at center du is {:4.1f} m/yr".format(name, changl[i, j] - evengl[i, j], chano[i, j] - eveno[i, j]))
         if name == "full":
             full_vals = [changl[i, j] - evengl[i, j], chano[i, j] - eveno[i, j]]
             full_maxes = [np.max(changl[:, :] - evengl[:, :]), np.max(chano[:, :] - eveno[:, :])]
@@ -1086,13 +966,9 @@ if __name__ == "__main__":
 
         depth_pairs = [(0, 1), (1, 3)]
         width_pairs = [(1 + i, 4 + 2 * i) for i in range(4)]
-        dw_gl = np.hstack(
-            [(changl[i2, :] - evengl[i2, :]) / (changl[i1, :] - evengl[i1, :]) for (i1, i2) in width_pairs]
-        )
+        dw_gl = np.hstack([(changl[i2, :] - evengl[i2, :]) / (changl[i1, :] - evengl[i1, :]) for (i1, i2) in width_pairs])
         dw_c = np.hstack([(chano[i2, :] - eveno[i2, :]) / (chano[i1, :] - eveno[i1, :]) for (i1, i2) in width_pairs])
-        dd_gl = np.hstack(
-            [(changl[:, i2] - evengl[:, i2]) / (changl[:, i1] - evengl[:, i1]) for (i1, i2) in depth_pairs]
-        )
+        dd_gl = np.hstack([(changl[:, i2] - evengl[:, i2]) / (changl[:, i1] - evengl[:, i1]) for (i1, i2) in depth_pairs])
         dd_c = np.hstack([(chano[:, i2] - eveno[:, i2]) / (chano[:, i1] - eveno[:, i1]) for (i1, i2) in depth_pairs])
         if name in ["full", "margin"]:
             rel_dd_gl.append(dd_gl)
@@ -1138,24 +1014,12 @@ if __name__ == "__main__":
         )
         print("")
 
-    relative_changes = (
-        (margin_center_vels_chans - margin_center_vels_even) / (full_center_vels_chans - full_center_vels_even)
-    ) * 100
+    relative_changes = ((margin_center_vels_chans - margin_center_vels_even) / (full_center_vels_chans - full_center_vels_even)) * 100
     depths_mat = np.repeat(np.atleast_2d(depths), len(widths), axis=0).flatten()
     widths_mat = np.repeat(np.atleast_2d(widths), len(depths), axis=0).T.flatten()
-    print(
-        "Mean diff 1 vs 2 channels is {:4.1f}±{:4.1f}% at center".format(
-            np.mean(relative_changes), np.std(relative_changes)
-        )
-    )
-    relative_changes_gl = (
-        (margin_gl_vels_chans - margin_gl_vels_even) / (full_gl_vels_chans - full_gl_vels_even)
-    ) * 100
-    print(
-        "Mean diff 1 vs 2 channels is {:4.1f}±{:4.1f}% at gl".format(
-            np.mean(relative_changes_gl), np.std(relative_changes_gl)
-        )
-    )
+    print("Mean diff 1 vs 2 channels is {:4.1f}±{:4.1f}% at center".format(np.mean(relative_changes), np.std(relative_changes)))
+    relative_changes_gl = ((margin_gl_vels_chans - margin_gl_vels_even) / (full_gl_vels_chans - full_gl_vels_even)) * 100
+    print("Mean diff 1 vs 2 channels is {:4.1f}±{:4.1f}% at gl".format(np.mean(relative_changes_gl), np.std(relative_changes_gl)))
 
     relative_single(relative_changes, relative_changes_gl)
     marker_plot_simplified()
@@ -1167,12 +1031,12 @@ if __name__ == "__main__":
     step = 50
     bin_edges = np.arange(-100, 500 + step, step)
 
-    ax1.hist((np.hstack(rel_dd_center) - 1) * 100.0, bin_edges, alpha=0.5, color='C0', label="Double depth")
-    ax1.hist((np.hstack(rel_dw_center) - 1) * 100.0, bin_edges, alpha=0.5, color='C1', label="Double width")
-    ax1.legend(loc='best')
+    ax1.hist((np.hstack(rel_dd_center) - 1) * 100.0, bin_edges, alpha=0.5, color="C0", label="Double depth")
+    ax1.hist((np.hstack(rel_dw_center) - 1) * 100.0, bin_edges, alpha=0.5, color="C1", label="Double width")
+    ax1.legend(loc="best")
 
-    ax2.hist((np.hstack(rel_dd_gl) - 1) * 100.0, bin_edges, alpha=0.5, color='C0', label="Double depth")
-    ax2.hist((np.hstack(rel_dw_gl) - 1) * 100.0, bin_edges, alpha=0.5, color='C1', label="Double width")
+    ax2.hist((np.hstack(rel_dd_gl) - 1) * 100.0, bin_edges, alpha=0.5, color="C0", label="Double depth")
+    ax2.hist((np.hstack(rel_dw_gl) - 1) * 100.0, bin_edges, alpha=0.5, color="C1", label="Double width")
     ax1.text(
         0.01,
         0.97,

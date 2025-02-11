@@ -95,9 +95,7 @@ def run_sims(channel_func, model, mesh, left, vert, right, Q2, z_b, widths, dept
             # princ_stresses = principal_stress(velocity=results_even[key]["velocity"], fluidity=A)
             # print("Calculating von Mises stresses")
             # results_even[key]["tvm"] = firedrake.project(von_mises_stress(princ_stresses) * 1000, Q2)
-            results_even[key]["tvm"] = firedrake.project(
-                von_mises_stress_vel(velocity=results_even[key]["velocity"], fluidity=A) * 1000, Q2
-            )
+            results_even[key]["tvm"] = firedrake.project(von_mises_stress_vel(velocity=results_even[key]["velocity"], fluidity=A) * 1000, Q2)
             print(f"Running a {channel_width / 1000}-km wide, {channel_depth}-m deep channel...")
             chans = channel_func(
                 mesh,
@@ -125,9 +123,7 @@ def run_sims(channel_func, model, mesh, left, vert, right, Q2, z_b, widths, dept
             # princ_stresses = principal_stress(velocity=results_chans[key]["velocity"], fluidity=A)
             # print("Calculating von Mises stresses")
             # results_chans[key]["tvm"] = firedrake.project(von_mises_stress(princ_stresses) * 1000, Q2)
-            results_chans[key]["tvm"] = firedrake.project(
-                von_mises_stress_vel(velocity=results_chans[key]["velocity"], fluidity=A) * 1000, Q2
-            )
+            results_chans[key]["tvm"] = firedrake.project(von_mises_stress_vel(velocity=results_chans[key]["velocity"], fluidity=A) * 1000, Q2)
 
     with firedrake.CheckpointFile(chan_fn, "w") as chk:
         chk.save_mesh(mesh)
@@ -138,9 +134,7 @@ def run_sims(channel_func, model, mesh, left, vert, right, Q2, z_b, widths, dept
                 chk.set_attr(
                     "{:d} {:d}".format(channel_width, channel_depth),
                     "volume",
-                    vol_thinning(
-                        channel_func, mesh, channel_depth, left, vert, outer=right, ramp_y=ramp_y, y_width=channel_width
-                    ),
+                    vol_thinning(channel_func, mesh, channel_depth, left, vert, outer=right, ramp_y=ramp_y, y_width=channel_width),
                 )
                 for f in ["thickness", "velocity", "surface", "tvm"]:
                     if results_even[key] is not None:
@@ -350,9 +344,7 @@ def channels_and_plots(setup="mismip", pos_name="channels", chan_name="full", re
         plt.close(fig)
 
     if restart or not os.path.exists(chan_fn):
-        results_even, results_chans = run_sims(
-            channel_func, model, fine_mesh, left, vert, right, Q2, z_b, widths, depths, h_0, s_0, u_0c, A, C, chan_fn, funky=funky
-        )
+        results_even, results_chans = run_sims(channel_func, model, fine_mesh, left, vert, right, Q2, z_b, widths, depths, h_0, s_0, u_0c, A, C, chan_fn, funky=funky)
     else:
         print("Reloading channel output")
         results_even = {}
@@ -394,24 +386,12 @@ def channels_and_plots(setup="mismip", pos_name="channels", chan_name="full", re
     fig, (ax1, ax2, ax3, cax) = plt.subplots(1, 4, gridspec_kw={"width_ratios": (1, 1, 1, 0.08)}, figsize=(7.8, 3.5))
     for i, channel_width in enumerate(widths):
         for j, channel_depth in enumerate(depths):
-            center_vels_chans[i, j] = extract_surface(
-                firedrake.project(results_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-            ).at(*center_pt)
-            center_vels_even[i, j] = extract_surface(
-                firedrake.project(results_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-            ).at(*center_pt)
-            outer_vels_chans[i, j] = extract_surface(
-                firedrake.project(results_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-            ).at(*outer_pt)
-            outer_vels_even[i, j] = extract_surface(
-                firedrake.project(results_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-            ).at(*outer_pt)
-            gl_vels_chans[i, j] = extract_surface(
-                firedrake.project(results_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-            ).at(*gl_pt)
-            gl_vels_even[i, j] = extract_surface(
-                firedrake.project(results_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-            ).at(*gl_pt)
+            center_vels_chans[i, j] = extract_surface(firedrake.project(results_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+            center_vels_even[i, j] = extract_surface(firedrake.project(results_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*center_pt)
+            outer_vels_chans[i, j] = extract_surface(firedrake.project(results_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+            outer_vels_even[i, j] = extract_surface(firedrake.project(results_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*outer_pt)
+            gl_vels_chans[i, j] = extract_surface(firedrake.project(results_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
+            gl_vels_even[i, j] = extract_surface(firedrake.project(results_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*gl_pt)
 
     fig, ax = plt.subplots()
     for i, width in enumerate(widths):
@@ -722,9 +702,7 @@ def channels_and_plots(setup="mismip", pos_name="channels", chan_name="full", re
     tau_yx = firedrake.project(tau[1, 0] * 1000, Q2)
     tau_yy = firedrake.project(tau[1, 1] * 1000, Q2)
 
-    fig, ((ax1, ax2), (ax3, ax4), (cax1, cax2)) = plt.subplots(
-        3, 2, figsize=(12, 12), gridspec_kw={"height_ratios": (1, 1, 0.05)}
-    )
+    fig, ((ax1, ax2), (ax3, ax4), (cax1, cax2)) = plt.subplots(3, 2, figsize=(12, 12), gridspec_kw={"height_ratios": (1, 1, 0.05)})
     axes = [ax1, ax2, ax3, ax4]
     colors = tripcolor(extract_surface(tau_xx), axes=ax1, cmap="PiYG", vmin=-150, vmax=150)
     colors = tripcolor(extract_surface(tau_xy), axes=ax2, cmap="PiYG", vmin=-150, vmax=150)
@@ -747,9 +725,7 @@ def channels_and_plots(setup="mismip", pos_name="channels", chan_name="full", re
     tau_yx = firedrake.project(tau_chan[1, 0] * 1000, Q2)
     tau_yy = firedrake.project(tau_chan[1, 1] * 1000, Q2)
 
-    fig, ((ax1, ax2), (ax3, ax4), (cax1, cax2)) = plt.subplots(
-        3, 2, figsize=(12, 12), gridspec_kw={"height_ratios": (1, 1, 0.05)}
-    )
+    fig, ((ax1, ax2), (ax3, ax4), (cax1, cax2)) = plt.subplots(3, 2, figsize=(12, 12), gridspec_kw={"height_ratios": (1, 1, 0.05)})
     axes = [ax1, ax2, ax3, ax4]
     colors = tripcolor(tau_xx, axes=ax1, cmap="PiYG", vmin=-150, vmax=150)
     colors = tripcolor(tau_xy, axes=ax2, cmap="PiYG", vmin=-150, vmax=150)
@@ -768,9 +744,7 @@ def channels_and_plots(setup="mismip", pos_name="channels", chan_name="full", re
     dtau_yx = firedrake.project((tau[1, 0] - tau_chan[1, 0]) * 1000, Q2)
     dtau_yy = firedrake.project((tau[1, 1] - tau_chan[1, 1]) * 1000, Q2)
 
-    fig, ((ax1, ax2), (ax3, ax4), (cax1, cax2)) = plt.subplots(
-        3, 2, figsize=(12, 12), gridspec_kw={"height_ratios": (1, 1, 0.05)}
-    )
+    fig, ((ax1, ax2), (ax3, ax4), (cax1, cax2)) = plt.subplots(3, 2, figsize=(12, 12), gridspec_kw={"height_ratios": (1, 1, 0.05)})
     axes = [ax1, ax2, ax3, ax4]
     colors = tripcolor(dtau_xx, axes=ax1, cmap="PiYG", vmin=-100, vmax=100)
     colors = tripcolor(dtau_xy, axes=ax2, cmap="PiYG", vmin=-100, vmax=100)
@@ -818,7 +792,10 @@ if __name__ == "__main__":
         raise ValueError("Cannot be both inner and inner and outer")
 
     if args.a:
-        for setup in [ts_name, "mismip", ]:
+        for setup in [
+            ts_name,
+            "mismip",
+        ]:
             for chan_name in ["full", "inner", "outer"]:
                 if chan_name == "full":
                     poss = ["channels", "margin", "center"]

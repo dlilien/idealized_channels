@@ -142,9 +142,7 @@ if (not os.path.exists(coarse_fn)) or (not os.path.exists(med_mesh_fn)):
     height_above_flotationc = firedrake.assemble(interpolate(s - (1 - ρ_I / ρ_W) * h, Q2c))
     x, y = firedrake.SpatialCoordinate(coarse_mesh)
     refine_glc = firedrake.project(
-        firedrake.conditional(height_above_flotationc < 75.0, 275, 0)
-        * firedrake.conditional(height_above_flotationc > 2.0, 1, 0)
-        * firedrake.conditional(x > 5e5, 1, 0),
+        firedrake.conditional(height_above_flotationc < 75.0, 275, 0) * firedrake.conditional(height_above_flotationc > 2.0, 1, 0) * firedrake.conditional(x > 5e5, 1, 0),
         Q2c,
     )
 
@@ -214,11 +212,7 @@ fine_input_fn = "outputs/mismip-fine-ssa-10kyr.h5"
 med_err_fn = "outputs/mismip-error-med.h5"
 incremental_time = 5000.0
 if (not os.path.exists(fine_input_fn)) or (not os.path.exists(med_err_fn)):
-    print(
-        "Running medium resolution to refine mesh further (final time will be {:d} years)".format(
-            int(total_time + incremental_time)
-        )
-    )
+    print("Running medium resolution to refine mesh further (final time will be {:d} years)".format(int(total_time + incremental_time)))
     dt = 1.0
 
     Q1 = firedrake.FunctionSpace(med_mesh, "CG", 1)
@@ -257,9 +251,7 @@ if (not os.path.exists(fine_input_fn)) or (not os.path.exists(med_err_fn)):
     height_above_flotation = firedrake.assemble(interpolate(s - (1 - ρ_I / ρ_W) * h, Q2c))
     x, y = firedrake.SpatialCoordinate(coarse_mesh)
     refine_gl = firedrake.project(
-        firedrake.conditional(height_above_flotation < 75.0, 150, 0)
-        * firedrake.conditional(height_above_flotation > 2.0, 1, 0)
-        * firedrake.conditional(x > 5e5, 1, 0),
+        firedrake.conditional(height_above_flotation < 75.0, 150, 0) * firedrake.conditional(height_above_flotation > 2.0, 1, 0) * firedrake.conditional(x > 5e5, 1, 0),
         Q2c,
     )
 
@@ -421,16 +413,13 @@ height_above_flotation = firedrake.assemble(interpolate(s - (1 - ρ_I / ρ_W) * 
 height_above_flotation = firedrake.project(height_above_flotation, Q2c2)
 x, y = firedrake.SpatialCoordinate(coarse_mesh)
 refine_gl = firedrake.project(
-    firedrake.conditional(height_above_flotation < 75.0, 500, 0)
-    * firedrake.conditional(height_above_flotation > 2.0, 1, 0)
-    * firedrake.conditional(x > 5e5, 1, 0),
+    firedrake.conditional(height_above_flotation < 75.0, 500, 0) * firedrake.conditional(height_above_flotation > 2.0, 1, 0) * firedrake.conditional(x > 5e5, 1, 0),
     Q2c2,
 )
 
 refine_chans = firedrake.assemble(
     interpolate(
-        trapezoidal_channel(coarse_mesh, 750.0, 4.5e5, 40e3, y_width=5000.0, ramp_x=5e4)
-        + sidehugging_trapezoidal_channels(coarse_mesh, 750.0, standard_x, margin_y, y_width=5000.0, ramp_x=5e4),
+        trapezoidal_channel(coarse_mesh, 750.0, 4.5e5, 40e3, y_width=5000.0, ramp_x=5e4) + sidehugging_trapezoidal_channels(coarse_mesh, 750.0, standard_x, margin_y, y_width=5000.0, ramp_x=5e4),
         Q2c2,
     )
 )

@@ -20,7 +20,16 @@ from icepackaccs import extract_surface
 
 from hybrid_channels import widths, depths
 
-params = {"text.usetex": "true", "font.family": "sans-serif", "font.sans-serif": "cmss", 'mathtext.fontset': 'custom', 'mathtext.rm': 'Bitstream Vera Sans', 'mathtext.it': 'Bitstream Vera Sans:italic', 'mathtext.bf': 'Bitstream Vera Sans:bold', 'text.latex.preamble': r'\usepackage{cmbright}'}
+params = {
+    "text.usetex": "true",
+    "font.family": "sans-serif",
+    "font.sans-serif": "cmss",
+    "mathtext.fontset": "custom",
+    "mathtext.rm": "Bitstream Vera Sans",
+    "mathtext.it": "Bitstream Vera Sans:italic",
+    "mathtext.bf": "Bitstream Vera Sans:bold",
+    "text.latex.preamble": r"\usepackage{cmbright}",
+}
 plt.rcParams.update(params)
 
 cutoff = 265.0
@@ -79,7 +88,16 @@ for name, locdict in tvm_dict.items():
             dd = np.hstack([(mat[:, i2]) / (mat[:, i1]) for (i1, i2) in depth_pairs])
             for cname, d in zip(["width", "depth"], [dw, dd]):
                 if np.any(np.isfinite(d)):
-                    print("Double {:s}, change area by (min, max, median, mean - 1): {:4.1f}%, {:4.1f}%, {:4.1f}%, {:4.1f}±{:4.1f}%".format(cname, np.nanmin(d[np.isfinite(d)] - 1) * 100.0, np.nanmax(d[np.isfinite(d)] - 1) * 100.0, np.nanmedian(d[np.isfinite(d)] - 1) * 100.0, np.nanmean(d[np.isfinite(d)] - 1) * 100.0, np.nanstd(d[np.isfinite(d)] - 1) * 100.0))
+                    print(
+                        "Double {:s}, change area by (min, max, median, mean - 1): {:4.1f}%, {:4.1f}%, {:4.1f}%, {:4.1f}±{:4.1f}%".format(
+                            cname,
+                            np.nanmin(d[np.isfinite(d)] - 1) * 100.0,
+                            np.nanmax(d[np.isfinite(d)] - 1) * 100.0,
+                            np.nanmedian(d[np.isfinite(d)] - 1) * 100.0,
+                            np.nanmean(d[np.isfinite(d)] - 1) * 100.0,
+                            np.nanstd(d[np.isfinite(d)] - 1) * 100.0,
+                        )
+                    )
 
 circles = True
 fig, (ax1, ax2) = plt.subplots(
@@ -91,14 +109,16 @@ fig, (ax1, ax2) = plt.subplots(
     gridspec_kw={"hspace": 0.1, "right": 0.995, "top": 0.98, "left": 0.105, "bottom": 0.13},
 )
 if circles:
-    markers = 'o' * 10
-    fcs = [{"markerfacecolor": "k"},
-           {"markerfacecolor": "w"},
-           {"markerfacecolor": "0.6"},
-           {"markerfacecolor": "k"},
-           {"markerfacecolor": "k", "markerfacecoloralt": "w", "fillstyle": "right"},
-           {"markerfacecolor": "k", "markerfacecoloralt": "w", "fillstyle": "left"},
-           {"markerfacecolor": "k", "markerfacecoloralt": "w", "fillstyle": "bottom"}]
+    markers = "o" * 10
+    fcs = [
+        {"markerfacecolor": "k"},
+        {"markerfacecolor": "w"},
+        {"markerfacecolor": "0.6"},
+        {"markerfacecolor": "k"},
+        {"markerfacecolor": "k", "markerfacecoloralt": "w", "fillstyle": "right"},
+        {"markerfacecolor": "k", "markerfacecoloralt": "w", "fillstyle": "left"},
+        {"markerfacecolor": "k", "markerfacecoloralt": "w", "fillstyle": "bottom"},
+    ]
 else:
     markers = "osdo+xv"
     fcs = [{"markerfacecolor": "C5"}, {"markerfacecolor": "C6"}, {"markerfacecolor": "C7"}]
@@ -121,14 +141,7 @@ for k, width in enumerate(widths):
                 fc = fcs[j]
             else:
                 fc = fcs[lines - 1]
-            ax1.plot(
-                depths + offset,
-                tvm_dict["mismip"][mismip_loc[0]][pos][i, :],
-                linestyle="none",
-                marker=markers[j],
-                markeredgecolor="C{:d}".format(lines + 4),
-                **fc
-            )
+            ax1.plot(depths + offset, tvm_dict["mismip"][mismip_loc[0]][pos][i, :], linestyle="none", marker=markers[j], markeredgecolor="C{:d}".format(lines + 4), **fc)
         for j, loc in enumerate(ts_loc):
             # offset left to the left, right to the right
             if j in [0, 3]:
@@ -142,14 +155,7 @@ for k, width in enumerate(widths):
                 fc = fcs[j + 3]
             else:
                 fc = fcs[lines - 1]
-            ax2.plot(
-                depths + offset,
-                tvm_dict["partial_stream"][loc][ts_pos[0]][i, :],
-                linestyle="none",
-                marker=markers[j + 3],
-                markeredgecolor="C{:d}".format(lines + 4),
-                **fc
-            )
+            ax2.plot(depths + offset, tvm_dict["partial_stream"][loc][ts_pos[0]][i, :], linestyle="none", marker=markers[j + 3], markeredgecolor="C{:d}".format(lines + 4), **fc)
 
 for j, pos in enumerate(mismip_pos):
     if circles:
@@ -168,9 +174,7 @@ ax1.set_xlim(40, 260)
 ax1.text(0.01, 0.97, "a MISMIP+", ha="left", va="top", fontsize=14, transform=ax1.transAxes)
 ax2.text(0.01, 0.97, "b Partial stream", ha="left", va="top", fontsize=14, transform=ax2.transAxes)
 ax2.set_xlabel("Channel depth [m]")
-ax1.text(
-    -0.1, -0.1, r"Area where $\tau_\textnormal{vM}>$265 kPa [km$^2$]", rotation=90, transform=ax1.transAxes, ha="center", va="center"
-)
+ax1.text(-0.1, -0.1, r"Area where $\tau_\textnormal{vM}>$265 kPa [km$^2$]", rotation=90, transform=ax1.transAxes, ha="center", va="center")
 ax1.legend(ncol=2, loc="upper center", frameon=False, fontsize=8)
 ax2.legend(ncol=2, loc="upper center", frameon=False, fontsize=8)
 fig.savefig("../plots/hybrid/tvm_bydepth.pdf")
@@ -194,11 +198,7 @@ for j, pos in enumerate(mismip_pos):
         if i == 0:
             label = names[pos]
         b, t = np.min(tvm_dict["mismip"][mismip_loc[0]][pos][:, i]), np.max(tvm_dict["mismip"][mismip_loc[0]][pos][:, i])
-        ax1.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth],
-                 [b, b, t, t, b],
-                 color=colors[pos],
-                 label=label,
-                 alpha=0.5)
+        ax1.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth], [b, b, t, t, b], color=colors[pos], label=label, alpha=0.5)
 
 for j, loc in enumerate(ts_loc[1:]):
     for i, depth in enumerate(depths):
@@ -206,11 +206,7 @@ for j, loc in enumerate(ts_loc[1:]):
         if i == 0:
             label = names[loc]
         b, t = np.min(tvm_dict["partial_stream"][loc][ts_pos[0]][:, i]), np.max(tvm_dict["partial_stream"][loc][ts_pos[0]][:, i])
-        ax2.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth],
-                 [b, b, t, t, b],
-                 color=colors[loc],
-                 label=label,
-                 alpha=0.5)
+        ax2.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth], [b, b, t, t, b], color=colors[loc], label=label, alpha=0.5)
 
 
 ax1.set_ylim(0, 2000)
@@ -220,9 +216,7 @@ ax1.set_xlim(40, 260)
 ax1.text(0.01, 0.97, "a MISMIP+", ha="left", va="top", fontsize=14, transform=ax1.transAxes)
 ax2.text(0.01, 0.97, "b Partial stream", ha="left", va="top", fontsize=14, transform=ax2.transAxes)
 ax2.set_xlabel("Channel depth [m]")
-ax1.text(
-    -0.1, -0.1, r"Area where $\tau_\textnormal{vM}>$265 kPa [km$^2$]", rotation=90, transform=ax1.transAxes, ha="center", va="center"
-)
+ax1.text(-0.1, -0.1, r"Area where $\tau_\textnormal{vM}>$265 kPa [km$^2$]", rotation=90, transform=ax1.transAxes, ha="center", va="center")
 ax1.legend(ncol=2, loc="upper center", frameon=False, fontsize=8)
 ax2.legend(ncol=2, loc="upper center", frameon=False, fontsize=8)
 fig.savefig("../plots/hybrid/tvm_bydepth_simp.pdf")

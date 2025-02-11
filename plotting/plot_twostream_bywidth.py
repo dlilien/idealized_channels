@@ -23,7 +23,16 @@ from hybrid_channels import widths, depths
 from plot_mismip_raster import key_full, key_margin, key_center, key_inner, key_outer
 from libchannels import ts_name
 
-params = {"text.usetex": "true", "font.family": "sans-serif", "font.sans-serif": "cmss", 'mathtext.fontset': 'custom', 'mathtext.rm': 'Bitstream Vera Sans', 'mathtext.it': 'Bitstream Vera Sans:italic', 'mathtext.bf': 'Bitstream Vera Sans:bold', 'text.latex.preamble': r'\usepackage{cmbright}'}
+params = {
+    "text.usetex": "true",
+    "font.family": "sans-serif",
+    "font.sans-serif": "cmss",
+    "mathtext.fontset": "custom",
+    "mathtext.rm": "Bitstream Vera Sans",
+    "mathtext.it": "Bitstream Vera Sans:italic",
+    "mathtext.bf": "Bitstream Vera Sans:bold",
+    "text.latex.preamble": r"\usepackage{cmbright}",
+}
 plt.rcParams.update(params)
 
 key_funky = key_margin
@@ -63,36 +72,11 @@ def twopanel(control_pts, full_chans, full_even, margin_chans, margin_even, funk
                     markeredgecolor="C{:d}".format(lines + 4),
                     markerfacecolor="k",
                 )
+                ax.plot(depths, center_chans[pt_ind, i, :] - center_even[pt_ind, i, :], linestyle="none", marker=pt_symbols[pt_ind], markeredgecolor="C{:d}".format(lines + 4), markerfacecolor="k", markerfacecoloralt="w", fillstyle="top")
                 ax.plot(
-                    depths,
-                    center_chans[pt_ind, i, :] - center_even[pt_ind, i, :],
-                    linestyle="none",
-                    marker=pt_symbols[pt_ind],
-                    markeredgecolor="C{:d}".format(lines + 4),
-                    markerfacecolor="k",
-                    markerfacecoloralt="w",
-                    fillstyle="top"
+                    depths + 3, margin_chans[pt_ind, i, :] - margin_even[pt_ind, i, :], linestyle="none", marker=pt_symbols[pt_ind], markeredgecolor="C{:d}".format(lines + 4), markerfacecolor="k", markerfacecoloralt="w", fillstyle="right"
                 )
-                ax.plot(
-                    depths + 3,
-                    margin_chans[pt_ind, i, :] - margin_even[pt_ind, i, :],
-                    linestyle="none",
-                    marker=pt_symbols[pt_ind],
-                    markeredgecolor="C{:d}".format(lines + 4),
-                    markerfacecolor="k",
-                    markerfacecoloralt="w",
-                    fillstyle="right"
-                )
-                ax.plot(
-                    depths - 3,
-                    funky_chans[pt_ind, i, :] - funky_even[pt_ind, i, :],
-                    linestyle="none",
-                    marker=pt_symbols[pt_ind],
-                    markeredgecolor="C{:d}".format(lines + 4),
-                    markerfacecolor="k",
-                    markerfacecoloralt="w",
-                    fillstyle="left"
-                )
+                ax.plot(depths - 3, funky_chans[pt_ind, i, :] - funky_even[pt_ind, i, :], linestyle="none", marker=pt_symbols[pt_ind], markeredgecolor="C{:d}".format(lines + 4), markerfacecolor="k", markerfacecoloralt="w", fillstyle="left")
 
             ax1.plot([], [], linestyle="none", marker="o", color="C{:d}".format(lines + 4), label="{:d} m wide".format(width))
 
@@ -143,11 +127,7 @@ def twopanel_simplified(control_pts, full_chans, full_even, margin_chans, margin
                 label = None
                 if j == 0:
                     label = names[pref]
-                ax.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth],
-                        [d[pt_ind, 0, j], d[pt_ind, 0, j], d[pt_ind, -1, j], d[pt_ind, -1, j], d[pt_ind, 0, j]],
-                        color=colors[pref],
-                        label=label,
-                        alpha=0.5)
+                ax.fill([depth - pwidth, depth + pwidth, depth + pwidth, depth - pwidth, depth - pwidth], [d[pt_ind, 0, j], d[pt_ind, 0, j], d[pt_ind, -1, j], d[pt_ind, -1, j], d[pt_ind, 0, j]], color=colors[pref], label=label, alpha=0.5)
     ax1.set_ylim(0, 1500)
     ax2.set_ylim(0, 300)
 
@@ -191,18 +171,7 @@ if __name__ == "__main__":
     center_fn = chan_fn_template.format(setup, "center", "full")
     margin_fn = chan_fn_template.format(setup, "margin", "full")
     funky_fn = chan_fn_template.format(setup, "funky", "full")
-    names = ["full_chans",
-             "full_even",
-             "inner_chans",
-             "inner_even",
-             "outer_chans",
-             "outer_even",
-             "margin_chans",
-             "margin_even",
-             "funky_chans",
-             "funky_even",
-             "center_chans",
-             "center_even"]
+    names = ["full_chans", "full_even", "inner_chans", "inner_even", "outer_chans", "outer_even", "margin_chans", "margin_even", "funky_chans", "funky_even", "center_chans", "center_even"]
 
     cache_name = "pointwise_partial_stream.npz"
     if not os.path.exists(cache_name):
@@ -232,12 +201,8 @@ if __name__ == "__main__":
         for k, pt in enumerate(all_pts):
             for i, channel_width in enumerate(widths):
                 for j, channel_depth in enumerate(depths):
-                    full_chans[k, i, j] = extract_surface(
-                        firedrake.project(full_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
-                    full_even[k, i, j] = extract_surface(
-                        firedrake.project(full_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
+                    full_chans[k, i, j] = extract_surface(firedrake.project(full_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
+                    full_even[k, i, j] = extract_surface(firedrake.project(full_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
 
         outer_dict_even = {}
         outer_dict_chans = {}
@@ -266,12 +231,8 @@ if __name__ == "__main__":
         for k, pt in enumerate(all_pts):
             for i, channel_width in enumerate(widths):
                 for j, channel_depth in enumerate(depths):
-                    outer_chans[k, i, j] = extract_surface(
-                        firedrake.project(outer_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
-                    outer_even[k, i, j] = extract_surface(
-                        firedrake.project(outer_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
+                    outer_chans[k, i, j] = extract_surface(firedrake.project(outer_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
+                    outer_even[k, i, j] = extract_surface(firedrake.project(outer_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
 
         inner_dict_even = {}
         inner_dict_chans = {}
@@ -300,12 +261,8 @@ if __name__ == "__main__":
         for k, pt in enumerate(all_pts):
             for i, channel_width in enumerate(widths):
                 for j, channel_depth in enumerate(depths):
-                    inner_chans[k, i, j] = extract_surface(
-                        firedrake.project(inner_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
-                    inner_even[k, i, j] = extract_surface(
-                        firedrake.project(inner_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
+                    inner_chans[k, i, j] = extract_surface(firedrake.project(inner_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
+                    inner_even[k, i, j] = extract_surface(firedrake.project(inner_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
 
         margin_dict_even = {}
         margin_dict_chans = {}
@@ -334,12 +291,8 @@ if __name__ == "__main__":
         for k, pt in enumerate(all_pts):
             for i, channel_width in enumerate(widths):
                 for j, channel_depth in enumerate(depths):
-                    margin_chans[k, i, j] = extract_surface(
-                        firedrake.project(margin_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
-                    margin_even[k, i, j] = extract_surface(
-                        firedrake.project(margin_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
+                    margin_chans[k, i, j] = extract_surface(firedrake.project(margin_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
+                    margin_even[k, i, j] = extract_surface(firedrake.project(margin_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
 
         funky_dict_even = {}
         funky_dict_chans = {}
@@ -368,12 +321,8 @@ if __name__ == "__main__":
         for k, pt in enumerate(all_pts):
             for i, channel_width in enumerate(widths):
                 for j, channel_depth in enumerate(depths):
-                    funky_chans[k, i, j] = extract_surface(
-                        firedrake.project(funky_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
-                    funky_even[k, i, j] = extract_surface(
-                        firedrake.project(funky_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
+                    funky_chans[k, i, j] = extract_surface(firedrake.project(funky_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
+                    funky_even[k, i, j] = extract_surface(firedrake.project(funky_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
 
         center_dict_even = {}
         center_dict_chans = {}
@@ -401,25 +350,10 @@ if __name__ == "__main__":
         for k, pt in enumerate(all_pts):
             for i, channel_width in enumerate(widths):
                 for j, channel_depth in enumerate(depths):
-                    center_chans[k, i, j] = extract_surface(
-                        firedrake.project(center_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
-                    center_even[k, i, j] = extract_surface(
-                        firedrake.project(center_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)
-                    ).at(*pt)
+                    center_chans[k, i, j] = extract_surface(firedrake.project(center_dict_chans[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
+                    center_even[k, i, j] = extract_surface(firedrake.project(center_dict_even[(channel_width, channel_depth)]["velocity"][0], Q2)).at(*pt)
 
-        arrs = [full_chans,
-                full_even,
-                inner_chans,
-                inner_even,
-                outer_chans,
-                outer_even,
-                margin_chans,
-                margin_even,
-                funky_chans,
-                funky_even,
-                center_chans,
-                center_even]
+        arrs = [full_chans, full_even, inner_chans, inner_even, outer_chans, outer_even, margin_chans, margin_even, funky_chans, funky_even, center_chans, center_even]
         outs = {name: arr for name, arr in zip(names, arrs)}
 
         np.savez(cache_name, **outs)
@@ -429,10 +363,12 @@ if __name__ == "__main__":
             for name in names:
                 exec("""{:s} = data['{:s}']""".format(name, name))
 
-    for name, key, even, chan in zip(['full', 'margin', 'funky', 'center', 'inner', 'outer'],
-                                     [key_full, key_margin, key_funky, key_center, key_inner, key_outer],
-                                     [full_even, margin_even, funky_even, center_even, inner_even, outer_even],
-                                     [full_chans, margin_chans, funky_chans, center_chans, inner_chans, outer_chans],):
+    for name, key, even, chan in zip(
+        ["full", "margin", "funky", "center", "inner", "outer"],
+        [key_full, key_margin, key_funky, key_center, key_inner, key_outer],
+        [full_even, margin_even, funky_even, center_even, inner_even, outer_even],
+        [full_chans, margin_chans, funky_chans, center_chans, inner_chans, outer_chans],
+    ):
         i = np.where(widths == key[0])[0][0]
         j = np.where(depths == key[1])[0][0]
         print("For {:s}: Max du ".format(name), end="")
@@ -455,8 +391,16 @@ if __name__ == "__main__":
         for k, locname in enumerate(pt_names):
             dw = np.hstack([(chan[k, i2, :] - even[k, i2, :]) / (chan[k, i1, :] - even[k, i1, :]) for (i1, i2) in width_pairs])
             dd = np.hstack([(chan[k, :, i2] - even[k, :, i2]) / (chan[k, :, i1] - even[k, :, i1]) for (i1, i2) in depth_pairs])
-            print("Double width, change u at {:s} by (min, max, median, mean - 1): {:4.1f}%, {:4.1f}%, {:4.1f}%, {:4.1f}±{:4.1f}%".format(locname, np.min(dw - 1) * 100.0, np.max(dw - 1) * 100.0, np.median(dw - 1) * 100.0, np.mean(dw - 1) * 100.0, np.std(dw - 1) * 100.0))
-            print("Double depth, change u at {:s} by (min, max, median, mean - 1): {:4.1f}%, {:4.1f}%, {:4.1f}%, {:4.1f}±{:4.1f}%".format(locname, np.min(dd - 1) * 100.0, np.max(dd - 1) * 100.0, np.median(dd - 1) * 100.0, np.mean(dd - 1) * 100.0, np.std(dd - 1) * 100.0))
+            print(
+                "Double width, change u at {:s} by (min, max, median, mean - 1): {:4.1f}%, {:4.1f}%, {:4.1f}%, {:4.1f}±{:4.1f}%".format(
+                    locname, np.min(dw - 1) * 100.0, np.max(dw - 1) * 100.0, np.median(dw - 1) * 100.0, np.mean(dw - 1) * 100.0, np.std(dw - 1) * 100.0
+                )
+            )
+            print(
+                "Double depth, change u at {:s} by (min, max, median, mean - 1): {:4.1f}%, {:4.1f}%, {:4.1f}%, {:4.1f}±{:4.1f}%".format(
+                    locname, np.min(dd - 1) * 100.0, np.max(dd - 1) * 100.0, np.median(dd - 1) * 100.0, np.mean(dd - 1) * 100.0, np.std(dd - 1) * 100.0
+                )
+            )
         print("")
 
     twopanel(control_pts, full_chans, full_even, margin_chans, margin_even, funky_chans, funky_even, center_chans, center_even)

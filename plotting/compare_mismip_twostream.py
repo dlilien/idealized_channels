@@ -16,18 +16,7 @@ depths = np.array(depths)
 widths = np.array(widths)
 
 setup = ts_name
-names = ["full_chans",
-         "full_even",
-         "inner_chans",
-         "inner_even",
-         "outer_chans",
-         "outer_even",
-         "margin_chans",
-         "margin_even",
-         "funky_chans",
-         "funky_even",
-         "center_chans",
-         "center_even"]
+names = ["full_chans", "full_even", "inner_chans", "inner_even", "outer_chans", "outer_even", "margin_chans", "margin_even", "funky_chans", "funky_even", "center_chans", "center_even"]
 
 cache_name = "pointwise_partial_stream.npz"
 with np.load(cache_name) as data:
@@ -35,54 +24,56 @@ with np.load(cache_name) as data:
         exec("""ts_{:s} = data['{:s}']""".format(name, name))
 
 ts_dict = {
-           "full": {"center": [ts_full_chans[0, :, :], ts_full_even[0, :, :]], "gl": [ts_full_chans[3, :, :], ts_full_even[3, :, :]]},
-           "funky": {"center": [ts_funky_chans[0, :, :], ts_funky_even[0, :, :]], "gl": [ts_funky_chans[3, :, :], ts_funky_even[3, :, :]]},
-           "margin": {"center": [ts_margin_chans[0, :, :], ts_margin_even[0, :, :]], "gl": [ts_margin_chans[3, :, :], ts_margin_even[3, :, :]]},
-           "center": {"center": [ts_center_chans[0, :, :], ts_center_even[0, :, :]], "gl": [ts_center_chans[3, :, :], ts_center_even[3, :, :]]},
-           "inner": {"center": [ts_inner_chans[0, :, :], ts_inner_even[0, :, :]], "gl": [ts_inner_chans[3, :, :], ts_inner_even[3, :, :]]},
-           "outer": {"center": [ts_outer_chans[0, :, :], ts_outer_even[0, :, :]], "gl": [ts_outer_chans[3, :, :], ts_outer_even[3, :, :]]}
-          }
+    "full": {"center": [ts_full_chans[0, :, :], ts_full_even[0, :, :]], "gl": [ts_full_chans[3, :, :], ts_full_even[3, :, :]]},
+    "funky": {"center": [ts_funky_chans[0, :, :], ts_funky_even[0, :, :]], "gl": [ts_funky_chans[3, :, :], ts_funky_even[3, :, :]]},
+    "margin": {"center": [ts_margin_chans[0, :, :], ts_margin_even[0, :, :]], "gl": [ts_margin_chans[3, :, :], ts_margin_even[3, :, :]]},
+    "center": {"center": [ts_center_chans[0, :, :], ts_center_even[0, :, :]], "gl": [ts_center_chans[3, :, :], ts_center_even[3, :, :]]},
+    "inner": {"center": [ts_inner_chans[0, :, :], ts_inner_even[0, :, :]], "gl": [ts_inner_chans[3, :, :], ts_inner_even[3, :, :]]},
+    "outer": {"center": [ts_outer_chans[0, :, :], ts_outer_even[0, :, :]], "gl": [ts_outer_chans[3, :, :], ts_outer_even[3, :, :]]},
+}
 
-names = ["full_center_vels_chans",
-         "full_center_vels_even",
-         "full_outer_vels_chans",
-         "full_outer_vels_even",
-         "full_gl_vels_chans",
-         "full_gl_vels_even",
-         "full_ugl_vels_chans",
-         "full_ugl_vels_even",
-         "inner_center_vels_chans",
-         "inner_center_vels_even",
-         "inner_outer_vels_chans",
-         "inner_outer_vels_even",
-         "inner_gl_vels_chans",
-         "inner_gl_vels_even",
-         "inner_ugl_vels_chans",
-         "inner_ugl_vels_even",
-         "outer_center_vels_chans",
-         "outer_center_vels_even",
-         "outer_outer_vels_chans",
-         "outer_outer_vels_even",
-         "outer_gl_vels_chans",
-         "outer_gl_vels_even",
-         "outer_ugl_vels_chans",
-         "outer_ugl_vels_even",
-         "margin_center_vels_chans",
-         "margin_center_vels_even",
-         "margin_outer_vels_chans",
-         "margin_outer_vels_even",
-         "margin_gl_vels_chans",
-         "margin_gl_vels_even",
-         "margin_ugl_vels_chans",
-         "margin_ugl_vels_even",
-         "center_center_vels_chans",
-         "center_center_vels_even",
-         "center_outer_vels_chans",
-         "center_outer_vels_even",
-         "center_gl_vels_chans",
-         "center_gl_vels_even",
-         "center_ugl_vels_chans",
-         "center_ugl_vels_even"]
+names = [
+    "full_center_vels_chans",
+    "full_center_vels_even",
+    "full_outer_vels_chans",
+    "full_outer_vels_even",
+    "full_gl_vels_chans",
+    "full_gl_vels_even",
+    "full_ugl_vels_chans",
+    "full_ugl_vels_even",
+    "inner_center_vels_chans",
+    "inner_center_vels_even",
+    "inner_outer_vels_chans",
+    "inner_outer_vels_even",
+    "inner_gl_vels_chans",
+    "inner_gl_vels_even",
+    "inner_ugl_vels_chans",
+    "inner_ugl_vels_even",
+    "outer_center_vels_chans",
+    "outer_center_vels_even",
+    "outer_outer_vels_chans",
+    "outer_outer_vels_even",
+    "outer_gl_vels_chans",
+    "outer_gl_vels_even",
+    "outer_ugl_vels_chans",
+    "outer_ugl_vels_even",
+    "margin_center_vels_chans",
+    "margin_center_vels_even",
+    "margin_outer_vels_chans",
+    "margin_outer_vels_even",
+    "margin_gl_vels_chans",
+    "margin_gl_vels_even",
+    "margin_ugl_vels_chans",
+    "margin_ugl_vels_even",
+    "center_center_vels_chans",
+    "center_center_vels_even",
+    "center_outer_vels_chans",
+    "center_outer_vels_even",
+    "center_gl_vels_chans",
+    "center_gl_vels_even",
+    "center_ugl_vels_chans",
+    "center_ugl_vels_even",
+]
 
 cache_name = "pointwise_mismip.npz"
 with np.load(cache_name) as data:
@@ -90,13 +81,13 @@ with np.load(cache_name) as data:
         exec("{:s} = data['{:s}']".format(name, name))
 
 mismip_dict = {
-           "full": {"center": [full_center_vels_chans[:, :], full_center_vels_even[:, :]], "gl": [full_gl_vels_chans[:, :], full_gl_vels_even[:, :]]},
-           "margin": {"center": [margin_center_vels_chans[:, :], margin_center_vels_even[:, :]], "gl": [margin_gl_vels_chans[:, :], margin_gl_vels_even[:, :]]},
-           "funky": {"center": [margin_center_vels_chans[:, :], margin_center_vels_even[:, :]], "gl": [margin_gl_vels_chans[:, :], margin_gl_vels_even[:, :]]},
-           "center": {"center": [center_center_vels_chans[:, :], center_center_vels_even[:, :]], "gl": [center_gl_vels_chans[:, :], center_gl_vels_even[:, :]]},
-           "inner": {"center": [inner_center_vels_chans[:, :], inner_center_vels_even[:, :]], "gl": [inner_gl_vels_chans[:, :], inner_gl_vels_even[:, :]]},
-           "outer": {"center": [outer_center_vels_chans[:, :], outer_center_vels_even[:, :]], "gl": [outer_gl_vels_chans[:, :], outer_gl_vels_even[:, :]]}
-          }
+    "full": {"center": [full_center_vels_chans[:, :], full_center_vels_even[:, :]], "gl": [full_gl_vels_chans[:, :], full_gl_vels_even[:, :]]},
+    "margin": {"center": [margin_center_vels_chans[:, :], margin_center_vels_even[:, :]], "gl": [margin_gl_vels_chans[:, :], margin_gl_vels_even[:, :]]},
+    "funky": {"center": [margin_center_vels_chans[:, :], margin_center_vels_even[:, :]], "gl": [margin_gl_vels_chans[:, :], margin_gl_vels_even[:, :]]},
+    "center": {"center": [center_center_vels_chans[:, :], center_center_vels_even[:, :]], "gl": [center_gl_vels_chans[:, :], center_gl_vels_even[:, :]]},
+    "inner": {"center": [inner_center_vels_chans[:, :], inner_center_vels_even[:, :]], "gl": [inner_gl_vels_chans[:, :], inner_gl_vels_even[:, :]]},
+    "outer": {"center": [outer_center_vels_chans[:, :], outer_center_vels_even[:, :]], "gl": [outer_gl_vels_chans[:, :], outer_gl_vels_even[:, :]]},
+}
 
 alldiffs = {pos: [] for pos in mismip_dict["full"]}
 print("Relative difference (ts - mismip) / mismip in percent")

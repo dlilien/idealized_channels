@@ -24,7 +24,16 @@ from icepack.constants import (
 from hybrid_channels import standard_x, inner_end_x, outer_x, central_y, twostream_C
 from libchannels import smooth_floating, ts_name
 
-params = {"text.usetex": "true", "font.family": "sans-serif", "font.sans-serif": "cmss", 'mathtext.fontset': 'custom', 'mathtext.rm': 'Bitstream Vera Sans', 'mathtext.it': 'Bitstream Vera Sans:italic', 'mathtext.bf': 'Bitstream Vera Sans:bold', 'text.latex.preamble': r'\usepackage{cmbright}'}
+params = {
+    "text.usetex": "true",
+    "font.family": "sans-serif",
+    "font.sans-serif": "cmss",
+    "mathtext.fontset": "custom",
+    "mathtext.rm": "Bitstream Vera Sans",
+    "mathtext.it": "Bitstream Vera Sans:italic",
+    "mathtext.bf": "Bitstream Vera Sans:bold",
+    "text.latex.preamble": r"\usepackage{cmbright}",
+}
 plt.rcParams.update(params)
 
 width = 3.0e3
@@ -53,11 +62,7 @@ with firedrake.CheckpointFile("../modeling/outputs/{:s}-fine-degree2_comp.h5".fo
     for key in field_names:
         fields_ts[key] = chk.load_function(fine_mesh_ts, key)
     fields_ts["stress"] = chk.load_function(fine_mesh_ts, "tvm")
-height_above_flotation_ts = extract_surface(
-    firedrake.assemble(
-        interpolate(fields_ts["surface"] - (1 - ρ_I / ρ_W) * fields_ts["thickness"], fields_ts["thickness"].function_space())
-    )
-)
+height_above_flotation_ts = extract_surface(firedrake.assemble(interpolate(fields_ts["surface"] - (1 - ρ_I / ρ_W) * fields_ts["thickness"], fields_ts["thickness"].function_space())))
 
 Q2_ts = firedrake.FunctionSpace(fine_mesh_ts, "CG", 2, vfamily="GL", vdegree=2)
 Q2_mismip = firedrake.FunctionSpace(fine_mesh_mismip, "CG", 2, vfamily="GL", vdegree=2)
@@ -75,13 +80,7 @@ tau_vm_ts = extract_surface(fields_ts["stress"])
 
 if False:
     colors_dH = tripcolor(
-        extract_surface(
-            firedrake.assemble(
-                interpolate(
-                    fields_mismip["thickness"] - firedrake.assemble(interpolate(fields_ts["thickness"], Q2_mismip)), Q2_mismip
-                )
-            )
-        ),
+        extract_surface(firedrake.assemble(interpolate(fields_mismip["thickness"] - firedrake.assemble(interpolate(fields_ts["thickness"], Q2_mismip)), Q2_mismip))),
         cmap="PuOr",
         vmin=-500,
         vmax=500,
@@ -173,12 +172,10 @@ colors_eps = tripcolor(
     axes=ax_mismip_eps,
 )
 epsilon_dot_ts = sym_grad(fields_ts["velocity"])
-colors_eps = tripcolor(
-    extract_surface(firedrake.project(epsilon_dot_ts[0, 1], Q2_ts)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ax_ts_eps
-)
+colors_eps = tripcolor(extract_surface(firedrake.project(epsilon_dot_ts[0, 1], Q2_ts)), vmin=-0.05, vmax=0.05, cmap="PiYG", axes=ax_ts_eps)
 
 for i, ax in enumerate([ax_mismip_H, ax_mismip_u, ax_mismip_eps, ax_ts_H, ax_ts_u, ax_ts_eps, ax_chan]):
-    ax.axis('equal')
+    ax.axis("equal")
     if ax in (ax_ts_H, ax_ts_u, ax_ts_eps):
         hob = is_floating_ts
         glc = "0.7"
@@ -214,9 +211,7 @@ cax_H.tick_params(axis="both", which="major", labelsize=10)
 plt.colorbar(colors_u, label="$u_x$ [m yr$^{-1}$]", extend="max", cax=cax_u, orientation="vertical")
 cax_u.tick_params(axis="both", which="major", labelsize=10)
 
-cbar_eps = plt.colorbar(
-    colors_eps, label=r"$\dot{\epsilon}_{xy}$ [yr$^{-1}$]", extend="both", cax=cax_eps, orientation="vertical"
-)
+cbar_eps = plt.colorbar(colors_eps, label=r"$\dot{\epsilon}_{xy}$ [yr$^{-1}$]", extend="both", cax=cax_eps, orientation="vertical")
 cax_eps.tick_params(axis="both", which="major", labelsize=10)
 ax_mismip_H.set_title("MISMIP+")
 ax_ts_H.set_title(ts_name.replace("_", " ").capitalize())
@@ -243,8 +238,8 @@ def plot_central_chan(ax, c, w, ll, r=None, **kwargs):
     ax.plot(x, y, **kwargs)
 
 
-ax_mismip_H.annotate('Grounding\nline', xy=(51.8e4, 6.8e4), xytext=(55e4, 3e4), arrowprops=dict(arrowstyle="->"))
-ax_ts_H.annotate('Grounding\nline', xy=(51.5e4, 6.8e4), xytext=(55e4, 3e4), arrowprops=dict(arrowstyle="->", color='0.7'), color='0.7')
+ax_mismip_H.annotate("Grounding\nline", xy=(51.8e4, 6.8e4), xytext=(55e4, 3e4), arrowprops=dict(arrowstyle="->"))
+ax_ts_H.annotate("Grounding\nline", xy=(51.5e4, 6.8e4), xytext=(55e4, 3e4), arrowprops=dict(arrowstyle="->", color="0.7"), color="0.7")
 
 ax_ts_eps.annotate(r"$\tau_{\textnormal{vM}}$=265 kPa", xy=(49e4, 6.3e4), xytext=(51e4, 3e4), arrowprops=dict(arrowstyle="->", color="0.3"), color="0.3")
 

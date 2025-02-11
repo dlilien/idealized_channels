@@ -39,9 +39,7 @@ ax_p2c = fig.add_subplot(gs[8:13, 4:9], projection=SPS())
 
 ax_ant.set_xlim(ANT_EXTENT[:2])
 ax_ant.set_ylim(ANT_EXTENT[2:])
-ax_ant.show_tif(
-    "../../antarctica_general/Quantarctica3/SatelliteImagery/MODIS/MODIS_Mosaic_1000m.tif", cmap="gray", vmin=0, vmax=70
-)
+ax_ant.show_tif("../../antarctica_general/Quantarctica3/SatelliteImagery/MODIS/MODIS_Mosaic_1000m.tif", cmap="gray", vmin=0, vmax=70)
 ax_ant.set_facecolor("k")
 ax_ant._y_inline = True
 ax_ant.gridlines(
@@ -85,9 +83,7 @@ cms = ax_p1c.show_tif(s_fn_p, vmin=0, vmax=250, cmap=surf_cm)
 
 norm = colors.LogNorm(10, 2000)
 # norm = colors.Normalize(0, 1000)
-v_cm = colors.LinearSegmentedColormap.from_list(
-    "v", ["lightsalmon", "bisque", "gold", "olivedrab", "cornflowerblue", "mediumblue", "magenta", "red"], N=256
-)
+v_cm = colors.LinearSegmentedColormap.from_list("v", ["lightsalmon", "bisque", "gold", "olivedrab", "cornflowerblue", "mediumblue", "magenta", "red"], N=256)
 cmv = ax_s2.show_tif(v_fn, cmap=v_cm, norm=norm)
 cmv = ax_s2c.show_tif(v_fn, cmap=v_cm, norm=norm)
 cmv = ax_p2.show_tif(v_fn, cmap=v_cm, norm=norm)

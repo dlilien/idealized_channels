@@ -216,7 +216,6 @@ if __name__ == "__main__":
                 fields_init[key] = chk.load_function(fine_mesh, key)
     print("Starting at {:d}".format(int(time_now)))
 
-
     solver = icepack.solvers.FlowSolver(model, **fast_opts)
     Q2 = firedrake.FunctionSpace(fine_mesh, "CG", 2, vfamily="R", vdegree=0)
     V2 = firedrake.VectorFunctionSpace(fine_mesh, "CG", 2, dim=2, vfamily="GL", vdegree=2)
@@ -250,7 +249,6 @@ if __name__ == "__main__":
         "velocity": u_0,
     }
     z_b = firedrake.assemble(interpolate(mismip_bed_topography(fine_mesh), Q2))
-
 
     final_time = time_now + 10000
     increment = 500
