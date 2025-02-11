@@ -8,6 +8,6 @@ All models are run in the modeling folder (see README in that folder)
 Figures for the publication (and more) are made in the plotting folder.
 
 ## Requirements
-You will need to install icepack and firedrake from they respective repositories.
+You will need to install [icepack](https://github.com/icepack/icepack) and [firedrake](https://www.firedrakeproject.org/download.html).
 
-You will also need my icepackaccs repository (github.com/dlilien/icepackaccs.git).
+You will also need my [icepackaccs repository](https://github.com/dlilien/icepackaccs).
